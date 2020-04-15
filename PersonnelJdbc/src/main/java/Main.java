@@ -1,62 +1,111 @@
 package main.java;
 
-
-
-import java.time.Month;
+import main.java.Personnel.Builder;
 
 public class Main {
-	
-	private static Main INSTANCE; 
-	
+
+	private static Main instance; 
+
 	private Main() {
-		
+
 	}
-	
-	public static Main getInstance () {
-		if (INSTANCE == null) {
-			INSTANCE = new Main(); 
+
+	public static Main getInstance() {
+		if (instance == null) {
+			instance = new Main(); 
 		}
-		return INSTANCE; 
+		return instance; 
 	}
 
-     public static void main (String [] args) {
-    	 
-    	 GroupePersonnel gp = new GroupePersonnel ();  	
- 		Personnel p1 = new Personnel.Builder("Gertrude", "Germaine")
- 				       .build(); 
- 	
-		Personnel p2 = new Personnel.Builder("Jean", "Bouysous")
-				        .build(); 
-		
-		Personnel p3 = new Personnel.Builder("Marcel ", "Pagnol ")
-			       .build();
+	public static void main(String[] args) {
 
-		
-	    System.out.println(p3.getPrenom() + " " + p3.getNom() + " " + p3.getDateNaissance() +
-					" "+ p3.getFonction()+ " " + p3.getNumeroTelephone() + "\n");
-	
- 		
- 		gp.ajouter_personnel(p1);
- 		gp.ajouter_personnel(p2);
- 		gp.ajouter_personnel(p3);
- 		
- 		gp.supprimer_personnel(p1);
- 		gp.supprimer_personnel(p2);
- 		
- 		
+		/** premier scenario serialisation personne*/
+		Personnel perso = new Builder("Cormorran", "Strike")
+				.fonction("dectetive")
+				.numeroTelephone("0213456")
+				.numeroTelephone("01020304")
+				.build(); 
 
-	    Personnel perso = new Personnel.Builder ("Desmoulins", "Camille")	    		
-	    		      .fonction("journaliste")
-	    		      .dateNaissance (1980,Month.MAY,24)
-	    		      .numeroTelephone("0130859674")
-	    		      .numeroTelephone("0160325487")
-	    	          .build() ; 
-	    
-	    System.out.println(perso.getPrenom() + " " + perso.getNom() + " " + perso.getDateNaissance() +
-				" "+ perso.getFonction()+ " " + perso.getNumeroTelephone() );
-		System.out.println("\n");	
- 	
-     }
-    	 
+		perso.affichePersonnel();
+
+		perso.serialisationFichier("tutu");
+
+		System.out.println("\nTest de Deserialisation");
+
+		perso.deserialisationFichier("tutu");
+		/** fin premier scenario  serialisation personne*/
+
+
+		/** deuxieme scenario serialisation personne gson*/
+		Personnel perso2 = new Builder("Robin", "Ellacot")
+				.fonction("assitante-dectetive")
+				.numeroTelephone("123456789")
+				.numeroTelephone("13245896")
+				.build(); 
+
+		perso2.affichePersonnel();
+
+		String jsonString = perso2.serialisationJson();
+
+		System.out.println(jsonString);
+
+		System.out.println("\nTest de Deserialisation avec Json");
+
+		Personnel elt = perso.deSerialisationJson(jsonString);
+
+		elt.affichePersonnel();
+
+		/** fin deuxieme scenario serialisation personne gson */
+
+
+		/** premier scenario serialisation groupe*/
+		GroupePersonnel gp = new GroupePersonnel();  	
+		Personnel p1 = new Personnel.Builder("Gertrude", "Germaine")
+				.build(); 
+		Personnel p2 = new Personnel.Builder("Gribouille", "Larnaudie")
+				.build(); 
+
+		gp.ajouter_personnel(p1);
+		gp.ajouter_personnel(p2);
+
+		gp.afficheGroupePersonnel();
+
+		gp.serialisationFichier("tutu");
+
+		System.out.println("\nTest de Deserialisation");
+
+		gp.deserialisationFichier("tutu");
+		/** fin premier scenario  serialisation groupe*/
+
+
+		/** deuxieme scenario serialisation groupe gson*/
+
+		GroupePersonnel gp2 = new GroupePersonnel();  	
+		Personnel p3 = new Personnel.Builder("Camille", "Desmoulins")
+				.build(); 
+		Personnel p4 = new Personnel.Builder("Robin", "Ellacot")
+				.build(); 
+
+		gp2.ajouter_personnel(p3);
+		gp2.ajouter_personnel(p4);
+
+		gp.afficheGroupePersonnel();
+
+		String jsonString2 = gp2.serialisationJson();
+
+		System.out.println(jsonString2);
+
+		System.out.println("\nTest de Deserialisation avec Json");
+
+		GroupePersonnel elt2 = gp2.deSerialisationJson(jsonString2);
+
+		elt2.afficheGroupePersonnel();
+
+		/** fin deuxieme scenario serialisation groupe gson */
+
+	}
+
 }
+
+
 
