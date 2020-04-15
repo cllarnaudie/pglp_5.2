@@ -5,70 +5,71 @@ import org.junit.Test;
 import main.java.GroupePersonnel;
 import main.java.Personnel;
 
+
 public class TestGroupePersonnel {
-	
 
 	@Test
-	public void testGroupePersonnelAjouterPersonne() {
+	public void testSerialisationDeserialisation() {
 
-		System.out.println("testGroupePersonnelAjouterPersonne \n");
+		System.out.println("\n Test de sérialisation");
 
 		GroupePersonnel gp = new GroupePersonnel ();  	
 		Personnel p1 = new Personnel.Builder("Gertrude", "Germaine")
-				       .build(); 
+				.build(); 
+		Personnel p2 = new Personnel.Builder("Gribouille", "Larnaudie")
+				.build(); 
 
-		  gp.ajouter_personnel(p1);
-			    		     
-}
-	
-	@Test
-	public void testGroupePersonnelSupprimerPersonnel() {
+		gp.ajouter_personnel(p1);
+		gp.ajouter_personnel(p2);
 
-		System.out.println("testGroupePersonnelSupprimerPersonnel \n");
 
-		GroupePersonnel gp2 = new GroupePersonnel ();  	
-		Personnel p2 = new Personnel.Builder("Jean", "Bouysous")
-				        .build(); 
+		/**affichage du résultat */
+		gp.afficheGroupePersonnel();
 
-		
-		gp2.ajouter_personnel(p2);
-		gp2.supprimer_personnel(p2);
-	    		     
-}
-	
-	
+		/**serialisation*/
+		gp.serialisationFichier("tutu");
 
-	@Test
-	public void testGroupeAjouterMemePersonnel() {
+		System.out.println("\nTest de Deserialisation");
 
-		System.out.println("testGroupeAjouterMemePersonnel \n");
+		GroupePersonnel res = gp.deserialisationFichier("tutu");
 
-		GroupePersonnel gp2 = new GroupePersonnel ();  	
-		Personnel p3 = new Personnel.Builder("Marcel ", "Pagnol ")
-				       .build();
 
-		
-		gp2.ajouter_personnel(p3);
-		gp2.ajouter_personnel(p3);
+		/**affichage du résultat*/
+		if (res != null) {
+			res.afficheGroupePersonnel();
+		}
 	}
-	    	     
-
 
 
 	@Test
-	public void testGroupePersonnelSupprimerPersonneDeuxFois() {
+	public void testWriteGroupePersonnelJson() {
 
-		System.out.println("testGroupePersonnelSupprimerPersonneDeuxFois \n");
+		System.out.println("\n Test de sérialisation en json");
 
-		GroupePersonnel gp3 = new GroupePersonnel ();  	
-		Personnel p4 = new Personnel.Builder("More", "Thomas ")
-				       .build();
+		GroupePersonnel gp = new GroupePersonnel();  	
+		Personnel p1 = new Personnel.Builder("Camille", "Desmoulins")
+				.build(); 
+		Personnel p2 = new Personnel.Builder("Robin", "Ellacot")
+				.build(); 
+
+		gp.ajouter_personnel(p1);
+		gp.ajouter_personnel(p2);
+
+
+		/**affichage du résultat */
+		gp.afficheGroupePersonnel();
+
 		
-		gp3.ajouter_personnel(p4);
-		gp3.supprimer_personnel(p4);
-		gp3.supprimer_personnel(p4);
-		   	    		     
-}
-	
+		/**serialisation*/
+		String jsonString = gp.serialisationJson();
 
+		System.out.println(jsonString);
+
+		System.out.println("Test de Deserialisation avec Json");
+
+		GroupePersonnel elt = gp.deSerialisationJson(jsonString);
+
+		elt.afficheGroupePersonnel();
+
+	}
 }
