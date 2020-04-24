@@ -10,7 +10,7 @@ import main.java.dao.xml.PersonnelDAO;
  * @author devc
  *
  */
-public class DAOFactory extends AbstractDAOFactory {
+public class JdbcDAOFactory extends AbstractDAOFactory {
 	
 	public static DAO <Personnel> getPersonnelDAO(String nomFichier) {
 		
@@ -22,3 +22,4 @@ public class DAOFactory extends AbstractDAOFactory {
 		return GroupePersonnelDAO.getInstance(nomFichier);
 	}
 }
+
