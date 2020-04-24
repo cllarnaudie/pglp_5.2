@@ -17,68 +17,67 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public final class Personnel implements Composant, Serializable {
+public final class Personnel implements Serializable {
 
 	private final String nom;
-	private final String prenom; 
-	private final String fonction; 
-	private final LocalDate dateNaissance; 
-	private final  ArrayList<String> numeroTelephone; 
+	private final String prenom;
+	private final String fonction;
+	private final LocalDate dateNaissance;
+	private final ArrayList<String> numeroTelephone;
 
 	private static final long serialVersionUID = 150;
 
-
-	public  static  class Builder {
-		
-		private String  nom;
-		private String prenom; 
-		private String fonction; 
-		private LocalDate dateNaissance; 
-		private ArrayList<String> numeroTelephone; 
+	public static class Builder {
+		private String nom;
+		private String prenom;
+		private String fonction;
+		private LocalDate dateNaissance;
+		private ArrayList<String> numeroTelephone;
 
 		public Builder(String nom, String prenom) {
-
-			this.nom = nom; 
-			this.prenom = prenom; 
+			this.nom = nom;
+			this.prenom = prenom;
 			this.fonction = "inconnu";
-			this.dateNaissance = LocalDate.of(1, Month.JANUARY, 1); 
-			this.numeroTelephone = new ArrayList<String>(); 
-			
+			this.dateNaissance = LocalDate.of(1, Month.JANUARY, 1);
+			this.numeroTelephone = new ArrayList<String>();
+
 		}
 
 		public Builder fonction(String fonction) {
-			this.fonction = fonction; 
-			return this; 
+			this.fonction = fonction;
+			return this;
 		}
 
 		public Builder dateNaissance(int annee, Month mois, int jour) {
 			try {
 
-				dateNaissance = LocalDate.of(annee, mois, jour); 
+				dateNaissance = LocalDate.of(annee, mois, jour);
 			} catch (DateTimeException e) {
-				System.out.println(" date de naissance incorrecte - initilialisee à la valeur par defaut \n");
-				this.dateNaissance = LocalDate.of(1, Month.JANUARY, 1); 
+				System.out.println(" date de naissance incorrecte - initilialisee a la valeur par defaut \n");
+				this.dateNaissance = LocalDate.of(1, Month.JANUARY, 1);
 			}
-			return this; 
+			return this;
+
 		}
 
 		public Builder numeroTelephone(String numero) {
-			numeroTelephone.add(numero); 
-			return this; 
+			numeroTelephone.add(numero);
+			return this;
 		}
 
 		public Personnel build() {
-			return new Personnel(this); 
+			return new Personnel(this);
 		}
 
 	}
-	
+
 	public Personnel(Builder builder) {
-		nom = builder.nom; 
-		prenom = builder.prenom; 
-		fonction = builder.fonction; 
-		dateNaissance = builder.dateNaissance; 
-		numeroTelephone = builder.numeroTelephone; 
+		nom = builder.nom;
+		prenom = builder.prenom;
+		fonction = builder.fonction;
+		dateNaissance = builder.dateNaissance;
+		numeroTelephone = builder.numeroTelephone;
+
 	}
 
 	public String getNom() {
@@ -88,20 +87,22 @@ public final class Personnel implements Composant, Serializable {
 	public String getPrenom() {
 		return prenom;
 	}
+
 	public String getFonction() {
 		return fonction;
 	}
+
 	public LocalDate getDateNaissance() {
 		return dateNaissance;
 	}
+
 	public ArrayList<String> getNumeroTelephone() {
 		return numeroTelephone;
 	}
 
-
 	/**
-	 * Serialisation et ecriture dans le fichier
-	 * @param nomFichier
+	 * @param personne
+	 * @param fichier
 	 */
 	public void serialisationFichier(String nomFichier) {
 
@@ -111,32 +112,25 @@ public final class Personnel implements Composant, Serializable {
 
 			FileOutputStream file = new FileOutputStream(fichier);
 
-			/**ouverture d un flux sur un fichier*/
-			oos = new ObjectOutputStream(
-					new BufferedOutputStream(
-							file));
+			/** ouverture d un flux sur un fichier */
+			oos = new ObjectOutputStream(new BufferedOutputStream(file));
 
-
-			/**serialization de l objet*/
+			/** serialization de l objet */
 			oos.writeObject(this);
 
 			oos.flush();
 			oos.close();
 			file.close();
-		}
 
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			System.out.println(ex);
 			ex.printStackTrace();
 		}
+
 	}
 
-
-
 	/**
-	 * Deserialisation 
-	 * @param nomFichier
-	 * @return
+	 * @param fichier
 	 */
 	public Personnel deserialisationFichier(String nomFichier) {
 		Personnel res = null;
@@ -144,48 +138,37 @@ public final class Personnel implements Composant, Serializable {
 			File fichier = new File(nomFichier);
 			FileInputStream file = new FileInputStream(fichier);
 
-			/**ouverture d un flux sur un fichier*/
-			ObjectInputStream ois = new ObjectInputStream(
-					new BufferedInputStream(
-							file));
+			/** ouverture d un flux sur un fichier */
+			ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(file));
 
-			/**deserialization de l objet*/
-			res = (Personnel)ois.readObject();
+			/** deserialization de l objet */
+			res = (Personnel) ois.readObject();
 
 			ois.close();
 			file.close();
 
-		}
+		} catch (IOException ex) {
 
-		catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException ex) {
 
 			ex.printStackTrace();
 		}
-
-		catch (ClassNotFoundException ex) {
-
-			ex.printStackTrace();
-		}	
 		return res;
 	}
 
-
-	/**
-	 * @return jsonString
-	 */
 	public String serialisationJson() {
-
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 		String jsonString = gson.toJson(this);
 
 		return jsonString;
-	}
 
+	}
 
 	/**
 	 * @param jsonString
-	 * @return res
+	 * @return
 	 */
 	public Personnel deSerialisationJson(String jsonString) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -193,6 +176,7 @@ public final class Personnel implements Composant, Serializable {
 		Personnel res = gson.fromJson(jsonString, Personnel.class);
 
 		return res;
+
 	}
 
 	/**
@@ -201,17 +185,16 @@ public final class Personnel implements Composant, Serializable {
 	 */
 	public void affichePersonnel() {
 
-		System.out.println(nom);
-		System.out.println(prenom);
-		System.out.println(fonction);
-		System.out.println(dateNaissance.toString());
+		System.out.println(nom + " " + prenom + " " + fonction + " " + dateNaissance.toString());
+		// System.out.println (prenom);
+		// System.out.println (fonction);
+		// System.out.println (dateNaissance.toString());
 
 		if (numeroTelephone != null) {
 			for (int i = 0; i < numeroTelephone.size(); i++) {
 				System.out.println(numeroTelephone.get(i));
 			}
-		}	
-		System.out.println("\n"); 
-	}	
+		}
+	}
 }
 

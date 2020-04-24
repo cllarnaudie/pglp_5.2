@@ -11,12 +11,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.GsonBuilder; 
 
-public  class GroupePersonnel  implements Serializable {
-	private ArrayList<Personnel> personnels; 
-
-	private  static  final  long serialVersionUID = 150; 
+public  class GroupePersonnel  implements Serializable{
+	
+	private ArrayList <Personnel> personnels; 
+	
+	private  static  final  long serialVersionUID= 150 ; 
 
 	public GroupePersonnel() {
 		personnels = new ArrayList<Personnel>(); 
@@ -29,11 +30,10 @@ public  class GroupePersonnel  implements Serializable {
 	 */
 	public void ajouter_personnel(Personnel personnel) {
 		if (personnels.contains(personnel) == true) {
-			System.out.println("Le membre est déjà dans la liste \n"); 
+			System.out.println ("Le membre est déjà dans la liste \n"); 
 		}
 		else {
 			personnels.add(personnel); 
-
 		}
 	}
 
@@ -43,14 +43,14 @@ public  class GroupePersonnel  implements Serializable {
 	 */
 	public void supprimer_personnel(Personnel personnel) {
 		if (personnels.isEmpty() == true) {
-			System.out.println("La liste est vide \n"); 
+			System.out.println ("La liste est vide \n"); 
 		}
 		else {
 
 			if (personnels.contains(personnel) == true) {
 				personnels.remove(personnel); 
-				System.out.println("La personne " + personnel.getPrenom() + " " 
-						+ personnel.getNom() + " a ete supprime de la liste \n"); 
+				System.out.println ("La personne " + personnel.getPrenom() + " " + 
+						personnel.getNom() + " a ete supprime de la liste \n"); 
 			}
 		}
 	}
@@ -58,24 +58,24 @@ public  class GroupePersonnel  implements Serializable {
 
 	/**
 	 * Serialisation 
-	 * @param nomFichier
+	 * @param personne
+	 * @param fichier
 	 */
 	public void serialisationFichier(String nomFichier) {
 
-		ObjectOutputStream oos = null;
+		ObjectOutputStream oos=null ;
 		try {
-			File fichier = new File(nomFichier);
+			File fichier =  new File(nomFichier) ;
 
 			FileOutputStream file = new FileOutputStream(fichier);
 
 			/**ouverture d un flux sur un fichier*/
-			oos = new ObjectOutputStream(
+			oos =  new ObjectOutputStream(
 					new BufferedOutputStream(
-							file));
-
+							file) );
 
 			/**serialization de l objet*/
-			oos.writeObject(this);
+			oos.writeObject(this) ;
 
 			oos.flush();
 			oos.close();
@@ -83,49 +83,49 @@ public  class GroupePersonnel  implements Serializable {
 
 		}
 		catch (IOException ex) {
+			
 			ex.printStackTrace();
 		}
 	}
 
-
+	
+	
 	/**
 	 * Deserialisation
-	 * @param nomFichier
-	 * @return res
+	 *
+	 * @param fichier
 	 */
 	public GroupePersonnel deserialisationFichier(String nomFichier) {
 		GroupePersonnel res = null;
 		try {
-			File fichier = new File(nomFichier);
+			File fichier =  new File(nomFichier) ;
 			FileInputStream file = new FileInputStream(fichier);
 
 			/**ouverture d un flux sur un fichier*/
-			ObjectInputStream ois = new ObjectInputStream(
+			ObjectInputStream ois =  new ObjectInputStream(
 					new BufferedInputStream(
 							file));
 
 			/**deserialization de l objet*/
-			res = (GroupePersonnel)ois.readObject();
+			res = (GroupePersonnel)ois.readObject() ;
 
 			ois.close();
 			file.close();
-
 		}
+		
 		catch (IOException ex) {
+
 			ex.printStackTrace();
 		}
 		catch (ClassNotFoundException ex) {
+
 			ex.printStackTrace();
 		}	
-		return res;
+		return res ;
 	}
 
 
-	/**
-	 * 
-	 * @return jsonString
-	 */
-	public String serialisationJson() {
+	public String  serialisationJson() {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 		String jsonString = gson.toJson(this);
@@ -133,47 +133,48 @@ public  class GroupePersonnel  implements Serializable {
 		return jsonString;
 
 	}
-
-
+	
 	/**
 	 * @param jsonString
-	 * @return res
+	 * @return
 	 */
-	public GroupePersonnel deSerialisationJson(String jsonString) {
+	public GroupePersonnel deSerialisationJson(String jsonString  ) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-		GroupePersonnel res = gson.fromJson(jsonString,GroupePersonnel.class);
+		GroupePersonnel res = gson.fromJson(jsonString, GroupePersonnel.class);
+
 		return res;
-		
+
 	}
-
-
-
+	
+	
+	
 	/**
 	 * Affiche les attributs de la classe
-	 **/	 
+	 * */
+	 
+	 
 	public void afficheGroupePersonnel() {
 
-		for (Personnel elt : personnels) {
+		for ( Personnel elt : personnels) {
+
 			elt.affichePersonnel();
 		}
 	}
-
-
+	
 	/**
 	 * Retourne la fonction du groupe
-	 * @return res
+	 * @return
 	 */
 	public String getFunction() {
 
 		String res = new String("");
-
-		if ((personnels != null) && (!personnels.isEmpty())) {
+		
+		if ( (personnels != null) && (!personnels.isEmpty())) {
 			res = personnels.get(0).getFonction();
 		}
 		return res;
 	}
 
 }
-
 
