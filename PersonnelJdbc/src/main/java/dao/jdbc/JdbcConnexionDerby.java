@@ -1,15 +1,27 @@
 package main.java.dao.jdbc;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+
+/**
+ * Connection au SGBD  DERBY
+ * 
+ * La base usersdb et les tables de la base ont ete crees via l utilitaire ij de DERBY
+ *
+ * @author claire
+ *
+ */
+
 public class JdbcConnexionDerby {
 	
-	// nom de la base de donnees
+	/**nom de la base de donnees*/
 	private String nomBase;
 	
-	// repertoire d de la base de donnees
+	/**repertoire de la base de donnees*/
 	private String repertoireBase;
 	
 	
@@ -17,8 +29,8 @@ public class JdbcConnexionDerby {
 	
 	/**
 	 * Constructeur
-	 * @param nomBase
-	 * @param repertoireBase
+	 * @param nomBase : nom de la base de donnees
+	 * @param repertoireBase : repertoire de la base de donnees
 	 * 
 	 */
 	public JdbcConnexionDerby(String nomBase,String repertoireBase) {
@@ -36,22 +48,24 @@ public class JdbcConnexionDerby {
 	}
 	
 	
+	
+	
 	/**
 	 * Retourne la chaine de connexion a la base de donnéees
 	 * @return
 	 */
-	public Connection  getChaineConnexion() {
+	public Connection getChaineConnexion() {
 		 
 		Connection connect = null;
 		
-		String url = "jdbc:derby:"+ repertoireBase + nomBase +";create=true" ;
+		String url = "jdbc:derby:"+ repertoireBase + nomBase +";create=true";
 		
 		try {
 			
-			connect = DriverManager.getConnection(url) ;
+			connect = DriverManager.getConnection(url);
 			
 			if (connect == null) {
-				System.out.println("Connexion à la table refusee") ;
+				System.out.println("Connexion à la table refusee");
 
 			}
 
@@ -61,15 +75,14 @@ public class JdbcConnexionDerby {
 		}
 		
 		return connect;
-	   
 	}
+	
 	
 	/**
 	 * Fermeture de la connexion jdbc
 	 * @param connect
 	 */
-	
-	public void closeConnexion(Connection connect)   {
+	public static void closeConnexion(Connection connect) {
 
 		if (connect != null) {
 
@@ -84,18 +97,5 @@ public class JdbcConnexionDerby {
 		}
 	}
 	
-
-	public static void main(String[] args) throws Exception {
 		
-		JdbcConnexionDerby driver = new JdbcConnexionDerby("usersdb", "/home/devc/tools/derby/");
-	      
-		// connexion a la base
-		Connection connect = driver.getChaineConnexion() ;
-		
-		// fermeture de la connexion
-		driver.closeConnexion(connect);
-		      
-	}
-
 }
-
