@@ -7,12 +7,12 @@ import main.java.dao.xml.PersonnelDAO;
 
 /**
  * Fabrique pour l instanciation des DAO
- * @author devc
+ * @author claire
  *
  */
 public class DAOFactory extends AbstractDAOFactory {
 	
-	public static DAO <Personnel> getPersonnelDAO(String nomFichier) {
+	public DAO <Personnel> getPersonnelDAO(String nomFichier) {
 		
 		return PersonnelDAO.getInstance(nomFichier);
 	}
