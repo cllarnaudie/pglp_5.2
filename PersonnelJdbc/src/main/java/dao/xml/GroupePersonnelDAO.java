@@ -19,23 +19,25 @@ import main.java.dao.DAO;
 
 public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 
-	// instance de classe singleton
+	/**instance de classe singleton*/
 	private static GroupePersonnelDAO instance;  
 	
 	
-	// Table de hachage de groupe personnels avec pour cle : fonction
-	private static Map <String, GroupePersonnel> mapGroupePersonnels ; 
+	/**Table de hachage de groupe personnels avec pour cle : fonction*/
+	private static Map <String, GroupePersonnel> mapGroupePersonnels; 
 	
 	
-	// nom du fichier contenant le groupe personnels
-	private static String nomFichierGroupePersonnel ; 
+	/**nom du fichier contenant le groupe personnels*/
+	private static String nomFichierGroupePersonnel; 
 
-
+	
+	
+	
 	/**
 	 * Constructeur prive pour une classe singleton
 	 */
 	
-	private GroupePersonnelDAO() {
+	private GroupePersonnelDAO () {
 		
 	}
 	
@@ -46,9 +48,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	 */
 	
 	public static GroupePersonnelDAO getInstance(String nomFichier) {
-		
 	
-		
 		if (instance == null) {
 			instance = new GroupePersonnelDAO(); 
 			
@@ -56,7 +56,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 			
 			nomFichierGroupePersonnel = new String(nomFichier);
 			
-			// initialisation de la table des Personnels à partir du fichier
+			/**initialisation de la table des Personnels a partir du fichier*/
 			initMapPersonnels();
 			
 		}
@@ -77,10 +77,10 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 
 			if (cle != null) {
 
-				// mise a jour de la table
+				/**mise a jour de la table*/
 				mapGroupePersonnels.put(cle, gpperso);
 				
-				// mise a jour du fichier
+				/**mise a jour du fichier*/
 				ecrireFichierGroupePersonnels();
 			}
 
@@ -89,20 +89,19 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 		return gpperso;
 	}
 
+	
 	@Override
 	/**
 	 * 
 	 */
-
-	
 	public GroupePersonnel find(String id) {
 		
-		GroupePersonnel res = null ;
+		GroupePersonnel res = null;
 		if (id != null) {
 			
 			if ( mapGroupePersonnels.containsKey(id)) {
-				// mise a jour de la table
-				res = mapGroupePersonnels.get(id) ;
+				/**mise a jour de la table*/
+				res = mapGroupePersonnels.get(id);	
 			}
 		}
 		
@@ -119,17 +118,16 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 		String cle = getKeyGroupePersonnel(gpperso);
 
 		if ( mapGroupePersonnels.containsKey(cle)) {
-			// mise a jour de la table
-			mapGroupePersonnels.replace(cle, gpperso) ;
+			/**mise a jour de la table*/
+			mapGroupePersonnels.replace(cle, gpperso);
 		}
 		else {
-			// mise a jour de la table
-			mapGroupePersonnels.put(cle, gpperso) ;
+			/**mise a jour de la table*/
+			mapGroupePersonnels.put(cle, gpperso);
 		}
-		// mise a jour du fichier
+		/**mise a jour du fichier*/
 		ecrireFichierGroupePersonnels();
-
-
+		
 		return null;
 	}
 
@@ -138,8 +136,6 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	/**
 	 * 
 	 */
-	
-
 	public void delete(GroupePersonnel gpperso) {
 
 		String cle = getKeyGroupePersonnel(gpperso);
@@ -158,6 +154,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 
 	}
 	
+	
 	/**
 	 * 
 	 * @param personnel
@@ -168,11 +165,13 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	     String res = new String("");
 		
 	     if (gppersonnel != null) {
-	    	 res = gppersonnel.getFunction() ;
+	    	 res = gppersonnel.getFunction();
 	     }
 		
 	     return res; 
 	}
+	
+	
 	
 	/**
 	 * Lit le fichier des personnels
@@ -181,13 +180,14 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	private static LinkedList<GroupePersonnel> lireFichierGroupePersonnels() {
 		
 		FileInputStream fis = null;
-		ObjectInputStream ois =null ;
+		ObjectInputStream ois =null;
 		
-		LinkedList<GroupePersonnel> gppersLus = new LinkedList<>() ;
+		LinkedList<GroupePersonnel> gppersLus = new LinkedList<>();
 		
-		File fichier =  new File(nomFichierGroupePersonnel) ;
+		File fichier =  new File(nomFichierGroupePersonnel);
 
 		if (fichier.exists()) {
+			
 		try {
 
 				fis = new FileInputStream( fichier);
@@ -202,7 +202,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 				while ( (objetLu = ois.readObject()) != null) {
 
 					if (objetLu instanceof GroupePersonnel) {
-						GroupePersonnel gppersonnel = (GroupePersonnel)objetLu ;
+						GroupePersonnel gppersonnel = (GroupePersonnel)objetLu;
 
 						gppersLus.add(gppersonnel);
 
@@ -214,6 +214,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 			}
 
 			catch (EOFException ex) {
+
 
 			}
 			catch (IOException ex) {
@@ -237,8 +238,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 			}
 		}
 		
-		return gppersLus ;
-		
+		return gppersLus;	
 	}
 	
 	
@@ -246,7 +246,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	 * Initilisation de la Map des personnels
 	 */
 	
-	private static void  initMapPersonnels() {
+	private static void  initMapPersonnels () {
 		
 		// lecture du fichier ds personnels
 		LinkedList<GroupePersonnel> gppersLus = lireFichierGroupePersonnels();
@@ -267,7 +267,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	 */
 	private void ecrireFichierGroupePersonnels() {
 		
-		ObjectOutputStream oos=null ;
+		ObjectOutputStream oos = null ;
 		try {
 			
 			FileOutputStream fos = new FileOutputStream(new File(nomFichierGroupePersonnel));
@@ -275,13 +275,13 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 			/**ouverture d un flux sur un fichier*/
 			oos =  new ObjectOutputStream(
 					new BufferedOutputStream(
-							fos) );
+							fos));
 
 
 			/**serialization de l objet*/
 			if (!mapGroupePersonnels.isEmpty()) {
-				for ( GroupePersonnel gppersonnel :mapGroupePersonnels.values() ) {
-					oos.writeObject(gppersonnel) ;
+				for ( GroupePersonnel gppersonnel : mapGroupePersonnels.values()) {
+					oos.writeObject(gppersonnel);
 				}
 			}
 
@@ -294,7 +294,9 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 			
 			ex.printStackTrace();
 		}
+		
 	}
+	
 	
 	/**
 	 * Affiche les personnels contenus dans le fichier
@@ -302,7 +304,7 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	 */
 	public void afficheFichierGroupePersonnels() {
 
-		// lecture du fichier ds personnels
+		/**lecture du fichier ds personnels*/
 		LinkedList<GroupePersonnel> gppersLus = lireFichierGroupePersonnels();
 
 		if (gppersLus != null) {
@@ -314,5 +316,4 @@ public class GroupePersonnelDAO extends DAO <GroupePersonnel> {
 	}
 
 }
-
 

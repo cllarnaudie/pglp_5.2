@@ -37,7 +37,7 @@ public class PersonnelDAO extends DAO <Personnel> {
 	 * Constructeur prive pour une classe singleton
 	 */
 	
-	private PersonnelDAO () {
+	private PersonnelDAO() {
 		
 	}
 	
@@ -46,6 +46,7 @@ public class PersonnelDAO extends DAO <Personnel> {
 	 * 
 	 * @return
 	 */
+	
 	public static PersonnelDAO getInstance(String nomFichier) {
 		if (instance == null) {
 			instance = new PersonnelDAO(); 
@@ -87,11 +88,12 @@ public class PersonnelDAO extends DAO <Personnel> {
 		return perso;
 	}
 
-	
 	@Override
 	/**
 	 * 
-	 */	
+	 */
+
+	
 	public Personnel find(String id) {
 		
 		Personnel res = null ;
@@ -178,7 +180,7 @@ public class PersonnelDAO extends DAO <Personnel> {
 	 * Lit le fichier des personnels
 	 * 
 	 */
-	private static LinkedList<Personnel> lireFichierPersonnels() {
+	private static LinkedList<Personnel> lireFichierPersonnels () {
 		
 		FileInputStream fis = null;
 		ObjectInputStream ois =null ;
@@ -225,9 +227,13 @@ public class PersonnelDAO extends DAO <Personnel> {
 
 				ex.printStackTrace();
 			}
+
+			
 		}
 		
-		return persLus ;	
+		return persLus ;
+		
+		
 	}
 	
 	
@@ -240,9 +246,10 @@ public class PersonnelDAO extends DAO <Personnel> {
 		// lecture du fichier ds personnels
 		LinkedList<Personnel> persLus = lireFichierPersonnels();
 		
+		
 		for (Personnel personnel : persLus) {
 				mapPersonnels.put (getKeyPersonnel(personnel), personnel);
-		}
+		}	
 	}
 	
 	
@@ -261,7 +268,8 @@ public class PersonnelDAO extends DAO <Personnel> {
 			oos =  new ObjectOutputStream(
 					new BufferedOutputStream(
 							fos) );
-			
+
+
 			/**serialization de l objet*/
 			if (!mapPersonnels.isEmpty()) {
 				for ( Personnel personnel :mapPersonnels.values() ) {
@@ -272,13 +280,15 @@ public class PersonnelDAO extends DAO <Personnel> {
 			oos.flush();
 			oos.close();
 			fos.close();
+
 		}
-		
 		catch (IOException ex) {
 			System.out.println(ex);
 			ex.printStackTrace();
-		}	
+		}
+	
 	}
+	
 	
 	/**
 	 * Affiche les personnels contenus dans le fichier
@@ -288,10 +298,12 @@ public class PersonnelDAO extends DAO <Personnel> {
 
 		// lecture du fichier ds personnels
 		LinkedList<Personnel> persLus = lireFichierPersonnels();
+
 		
 		for (Personnel personnel : persLus) {
 				personnel.affichePersonnel();
 		}
+		
 	}
-}
 
+}
