@@ -64,6 +64,12 @@ public final class Personnel implements Serializable {
 			numeroTelephone.add(numero);
 			return this;
 		}
+		
+		public Builder telephones(ArrayList<String> numeros) {
+			numeroTelephone = numeros;
+			return this;
+		}
+		
 
 		public Personnel build() {
 			return new Personnel(this);
@@ -100,6 +106,7 @@ public final class Personnel implements Serializable {
 		return numeroTelephone;
 	}
 
+	
 	/**
 	 * @param personne
 	 * @param fichier
@@ -129,6 +136,7 @@ public final class Personnel implements Serializable {
 
 	}
 
+	
 	/**
 	 * @param fichier
 	 */
@@ -157,15 +165,16 @@ public final class Personnel implements Serializable {
 		return res;
 	}
 
+	
 	public String serialisationJson() {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 		String jsonString = gson.toJson(this);
 
 		return jsonString;
-
 	}
 
+	
 	/**
 	 * @param jsonString
 	 * @return
@@ -176,9 +185,9 @@ public final class Personnel implements Serializable {
 		Personnel res = gson.fromJson(jsonString, Personnel.class);
 
 		return res;
-
 	}
 
+	
 	/**
 	 * Affiche les attributs de la classe
 	 * 
@@ -186,10 +195,7 @@ public final class Personnel implements Serializable {
 	public void affichePersonnel() {
 
 		System.out.println(nom + " " + prenom + " " + fonction + " " + dateNaissance.toString());
-		// System.out.println (prenom);
-		// System.out.println (fonction);
-		// System.out.println (dateNaissance.toString());
-
+	
 		if (numeroTelephone != null) {
 			for (int i = 0; i < numeroTelephone.size(); i++) {
 				System.out.println(numeroTelephone.get(i));
@@ -197,4 +203,3 @@ public final class Personnel implements Serializable {
 		}
 	}
 }
-

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder; 
 
-public  class GroupePersonnel  implements Serializable{
+public  class GroupePersonnel implements Serializable{
 	
 	private ArrayList <Personnel> personnels; 
 	
@@ -34,6 +34,7 @@ public  class GroupePersonnel  implements Serializable{
 		}
 		else {
 			personnels.add(personnel); 
+			
 		}
 	}
 
@@ -63,19 +64,20 @@ public  class GroupePersonnel  implements Serializable{
 	 */
 	public void serialisationFichier(String nomFichier) {
 
-		ObjectOutputStream oos=null ;
+		ObjectOutputStream oos = null;
 		try {
-			File fichier =  new File(nomFichier) ;
+			File fichier = new File(nomFichier) ;
 
 			FileOutputStream file = new FileOutputStream(fichier);
 
 			/**ouverture d un flux sur un fichier*/
-			oos =  new ObjectOutputStream(
+			oos = new ObjectOutputStream(
 					new BufferedOutputStream(
 							file) );
 
+
 			/**serialization de l objet*/
-			oos.writeObject(this) ;
+			oos.writeObject(this);
 
 			oos.flush();
 			oos.close();
@@ -86,6 +88,7 @@ public  class GroupePersonnel  implements Serializable{
 			
 			ex.printStackTrace();
 		}
+
 	}
 
 	
@@ -98,7 +101,7 @@ public  class GroupePersonnel  implements Serializable{
 	public GroupePersonnel deserialisationFichier(String nomFichier) {
 		GroupePersonnel res = null;
 		try {
-			File fichier =  new File(nomFichier) ;
+			File fichier = new File(nomFichier);
 			FileInputStream file = new FileInputStream(fichier);
 
 			/**ouverture d un flux sur un fichier*/
@@ -107,12 +110,12 @@ public  class GroupePersonnel  implements Serializable{
 							file));
 
 			/**deserialization de l objet*/
-			res = (GroupePersonnel)ois.readObject() ;
+			res = (GroupePersonnel)ois.readObject();
 
 			ois.close();
 			file.close();
+
 		}
-		
 		catch (IOException ex) {
 
 			ex.printStackTrace();
@@ -138,7 +141,7 @@ public  class GroupePersonnel  implements Serializable{
 	 * @param jsonString
 	 * @return
 	 */
-	public GroupePersonnel deSerialisationJson(String jsonString  ) {
+	public GroupePersonnel deSerialisationJson(String jsonString) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 		GroupePersonnel res = gson.fromJson(jsonString, GroupePersonnel.class);
@@ -156,7 +159,7 @@ public  class GroupePersonnel  implements Serializable{
 	 
 	public void afficheGroupePersonnel() {
 
-		for ( Personnel elt : personnels) {
+		for (Personnel elt : personnels) {
 
 			elt.affichePersonnel();
 		}
@@ -176,5 +179,5 @@ public  class GroupePersonnel  implements Serializable{
 		return res;
 	}
 
-}
 
+}

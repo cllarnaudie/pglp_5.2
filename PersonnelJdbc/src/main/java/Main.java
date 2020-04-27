@@ -1,7 +1,6 @@
 package main.java;
-
-
 import main.java.Personnel.Builder;
+
 
 public class Main {
 
@@ -11,18 +10,18 @@ public class Main {
 
 	}
 
-	public static Main getInstance () {
+	public static Main getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new Main(); 
 		}
 		return INSTANCE; 
 	}
 
+	
 	/**
 	 * 
 	 * @param args
 	 */
-
 	public static void main (String [] args) {
 
 		/** premier scenario serialisation personne*/
@@ -41,7 +40,7 @@ public class Main {
 
 		//Personnel res = perso.deserialisationFichier("tutu");
 		 perso.deserialisationFichier("tutu");
-		/** fin premier scenario  serialisation personne*/
+		/** fin premier scenario serialisation personne*/
 
 
 		/** deuxieme scenario serialisation personne gson*/
@@ -67,7 +66,7 @@ public class Main {
 
 
 		/** premier scenario serialisation groupe*/
-		GroupePersonnel gp = new GroupePersonnel ();  	
+		GroupePersonnel gp = new GroupePersonnel();  	
 		Personnel p1 = new Personnel.Builder("Gertrude", "Germaine")
 				.build(); 
 		Personnel p2 = new Personnel.Builder("Gribouille", "Larnaudie")
@@ -82,7 +81,6 @@ public class Main {
 
 		System.out.println("\nTest de Deserialisation") ;
 
-		//GroupePersonnel res2 = gp.deserialisationFichier("tutu");
 		gp.deserialisationFichier("tutu");
  /** fin premier scenario  serialisation groupe*/
 
@@ -90,7 +88,7 @@ public class Main {
 
 	/** deuxieme scenario serialisation groupe gson*/
 
-	GroupePersonnel gp2 = new GroupePersonnel ();  	
+	GroupePersonnel gp2 = new GroupePersonnel();  	
 	Personnel p3 = new Personnel.Builder("Camille", "Desmoulins")
 			.build(); 
 	Personnel p4 = new Personnel.Builder("Robin", "Ellacot")
